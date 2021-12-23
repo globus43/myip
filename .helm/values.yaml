@@ -1,0 +1,69 @@
+replicaCount: 1
+
+image:
+  repository: registry.alexshangin.ru/myip
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: alexshangin
+nameOverride: ""
+fullnameOverride: "myip"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    cert-manager.io/issuer: office-ru-ca-issuer
+    external-dns.alpha.kubernetes.io/access: public
+    external-dns.alpha.kubernetes.io/hostname: ip.office.ru.
+    external-dns.alpha.kubernetes.io/target: kube1.office.ru.
+  hosts:
+    - host: ip.office.ru
+      paths:
+        - /
+  tls:
+    - secretName: ip-office-secret
+      hosts:
+        - ip.office.ru
+
+vpa:
+  enabled: true
+
+resources:
+  limits:
+     cpu: 150m
+     memory: 256Mi
+  requests:
+     cpu: 128m
+     memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

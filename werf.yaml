@@ -1,0 +1,7 @@
+configVersion: 1
+project: myip
+deploy:
+  namespace: default
+---
+image: myip
+dockerfile: Dockerfile
