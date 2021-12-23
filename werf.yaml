@@ -2,6 +2,12 @@ configVersion: 1
 project: myip
 deploy:
   namespace: default
+cleanup:
+  keepPolicies:
+  - references:
+      branch: master
+      limit:
+        last: 1
 ---
 image: myip
 dockerfile: Dockerfile
