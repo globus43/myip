@@ -7,7 +7,7 @@ cleanup:
   - references:
       branch: master
       limit:
-        last: 1
+        last: 3
 ---
 image: myip
 dockerfile: Dockerfile

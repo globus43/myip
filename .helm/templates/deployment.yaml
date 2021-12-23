@@ -37,7 +37,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           envFrom:
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.werf.image.myip }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
